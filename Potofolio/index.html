@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dusun Kertaharja — Pusaka Jaya</title>
+    
+    <!-- Google Fonts: Space Grotesk & Alex Brush -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --dark-indigo: #23003F;
+            --orange-red: #F94500;
+            --light-purple: #BCACCE;
+            --light-yellow: #FFFDB4;
+            
+            --bg-color: var(--dark-indigo);
+            --surface-color: rgba(35, 0, 63, 0.85);
+            --card-bg: rgba(188, 172, 206, 0.12);
+            --card-border: rgba(188, 172, 206, 0.25);
+            --text-main: #FFFFFF;
+            --text-muted: var(--light-purple);
+            --accent-glow: rgba(249, 69, 0, 0.4);
+            --nav-bg: rgba(35, 0, 63, 0.92);
+            --modal-bg: var(--dark-indigo);
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+        }
+
+        [data-theme="light"] {
+            --bg-color: var(--light-yellow);
+            --surface-color: rgba(255, 253, 180, 0.9);
+            --card-bg: #FFFFFF;
+            --card-border: rgba(35, 0, 63, 0.15);
+            --text-main: var(--dark-indigo);
+            --text-muted: #5c4375;
+            --accent-glow: rgba(249, 69, 0, 0.2);
+            --nav-bg: rgba(255, 253, 180, 0.95);
+            --modal-bg: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        html { scroll-behavior: smooth; }
+        
+        h1, h2, h3, .logo-brand { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+        .font-script { 
+            font-family: 'Alex Brush', cursive !important; 
+            text-transform: none !important; 
+            font-weight: 400 !important;
+            color: var(--orange-red) !important;
+        }
+
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 10%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(188, 172, 206, 0.15) 0%, transparent 45%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 C60 20 80 40 100 50 C80 60 60 80 50 100 C40 80 20 60 0 50 C20 40 40 20 50 0 Z' fill='%23BCACCE' fill-opacity='0.05'/%3E%3Cpath d='M50 25 C55 35 65 45 75 50 C65 55 55 65 50 75 C45 65 35 55 25 50 C35 45 45 35 50 25 Z' fill='%23F94500' fill-opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 100% 100%, 100% 100%, 120px 120px;
+            background-attachment: fixed;
+            padding-top: 105px;
+            padding-bottom: 60px;
+        }
+
+        /* TASKBAR */
+        .top-navbar {
+            position: fixed;
+            top: 15px; left: 50%;
+            transform: translateX(-50%);
+            width: 94%; max-width: 1160px;
+            height: 64px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 99px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        .logo-brand { 
+            font-size: 1.1rem; 
+            font-weight: 800; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .logo-brand span.font-script { 
+            font-size: 1.6rem;
+            line-height: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            background: rgba(188, 172, 206, 0.08);
+            padding: 3px;
+            border-radius: 99px;
+            border: 1px solid var(--card-border);
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.78rem;
+            padding: 6px 12px;
+            border-radius: 99px;
+        }
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background: var(--orange-red);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-box { position: relative; }
+        .search-box input {
+            background: rgba(188, 172, 206, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 6px 12px 6px 32px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            color: var(--text-main);
+            outline: none;
+            width: 110px;
+        }
+        .search-box input:focus {
+            width: 150px;
+            background: rgba(188, 172, 206, 0.2);
+            border-color: var(--orange-red);
+        }
+        .search-box i {
+            position: absolute; left: 12px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted); font-size: 0.75rem;
+        }
+
+        .btn-icon {
+            background: rgba(188, 172, 206, 0.1);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .btn-icon:hover {
+            background: var(--orange-red);
+            color: #ffffff;
+            box-shadow: 0 0 14px var(--accent-glow);
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HERO CARD DENGAN POSISI KIRI (LEFT ALIGNED) */
+        .hero-card {
+            background: var(--surface-color);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            text-align: left; /* KEMBALI RATA KIRI */
+        }
+        .hero-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--orange-red), var(--light-purple), transparent);
+        }
+
+        .hero-banner {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+        .hero-subtext {
+            font-size: 1.2rem;
+            color: var(--orange-red);
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .slider-box {
+            width: 100%; height: 380px;
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .slider-box img { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .section-header::after {
+            content: ''; flex: 1; height: 1px; background: var(--card-border);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .about-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .about-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--orange-red);
+            box-shadow: 0 20px 40px var(--accent-glow);
+        }
+        .about-card h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
+        .about-card p { color: var(--text-muted); line-height: 1.75; font-size: 0.96rem; }
+
+        .media-bar {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+            margin-bottom: 40px;
+        }
+        .media-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            padding: 15px;
+        }
+        .media-item video, .media-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+        }
+        .media-item p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 28px; }
+        .filter-btn {
+            padding: 10px 22px;
+            background: rgba(188, 172, 206, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .filter-btn.active-filter, .filter-btn:hover {
+            background: var(--orange-red);
+            color: #ffffff;
+            border-color: var(--orange-red);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 44px; }
+        .portfolio-item {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+        }
+        .portfolio-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--orange-red);
+            box-shadow: 0 20px 40px var(--accent-glow);
+        }
+        .portfolio-thumb {
+            height: 170px;
+            background: rgba(249, 69, 0, 0.15);
+            overflow: hidden;
+        }
+        .portfolio-thumb img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .portfolio-info { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .portfolio-info h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text-main); font-weight: 700; }
+        .portfolio-info p.desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; flex: 1; }
+        
+        .btn-buy {
+            background: var(--orange-red);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.88rem;
+        }
+        .btn-buy:hover {
+            background: #d63b00;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .expose-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: 32px;
+            border: 1px solid var(--card-border);
+        }
+        .expose-card:hover {
+            border-color: var(--orange-red);
+            box-shadow: 0 20px 40px var(--accent-glow);
+        }
+        .expose-img { width: 100%; height: 300px; object-fit: cover; }
+        .expose-body { padding: 32px; }
+        .expose-title { font-size: 1.4rem; margin-bottom: 12px; color: var(--text-main); font-weight: 800; }
+        .expose-desc { color: var(--text-muted); font-size: 0.98rem; line-height: 1.7; }
+
+        .contact-box {
+            background: var(--surface-color);
+            border-radius: var(--radius-xl);
+            padding: 44px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 44px;
+        }
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 10px; color: var(--text-main); font-size: 0.9rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            outline: none; color: var(--text-main); font-size: 0.95rem;
+        }
+        
+        /* MEMPERBAIKI DROPDOWN / SELECT DI MODE GELAP AGAR TERBACA JELAS */
+        .form-group select option {
+            background-color: #23003F;
+            color: #FFFFFF;
+            padding: 10px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--orange-red);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        .btn-submit {
+            background: var(--orange-red); color: #ffffff; border: none;
+            padding: 14px 32px; border-radius: var(--radius-md);
+            font-weight: 700; cursor: pointer; font-size: 0.95rem;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-submit:hover {
+            background: #d63b00; box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .social-center-section {
+            text-align: center;
+            background: var(--surface-color);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .social-center-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+        .social-links-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            background: rgba(188, 172, 206, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 99px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .social-btn:hover {
+            background: var(--orange-red);
+            color: #FFFFFF;
+            border-color: var(--orange-red);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-4px);
+        }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            display: none; justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .modal-overlay.active-modal { display: flex; }
+
+        .settings-modal {
+            background: var(--modal-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            width: 90%; max-width: 480px;
+            padding: 36px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+            animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 24px; }
+        .modal-header h3 { font-size: 1.3rem; color: var(--text-main); }
+        .close-modal { font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
+
+        .account-profile {
+            display: flex; align-items: center; gap: 16px;
+            background: rgba(188, 172, 206, 0.1);
+            padding: 18px; border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            margin-bottom: 24px;
+        }
+        .avatar { width: 50px; height: 50px; background: var(--orange-red); color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; }
+        .account-info h4 { font-size: 1.05rem; color: var(--text-main); }
+        .account-info p { font-size: 0.82rem; color: var(--text-muted); }
+        .badge-pro { background: var(--orange-red); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; margin-left: 6px; }
+
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-weight: 600; font-size: 0.95rem; }
+
+        .footer-info { display: flex; justify-content: center; align-items: center; padding-top: 28px; border-top: 1px solid var(--card-border); font-size: 0.88rem; color: var(--text-muted); }
+
+        @media(max-width:768px) {
+            .nav-links { display: none; }
+            .cards-grid, .portfolio-grid, .media-bar { grid-template-columns: 1fr; }
+            .top-navbar { width: 95%; padding: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING NAVBAR -->
+    <header class="top-navbar">
+        <a href="#home" class="logo-brand">PUSAKA <span class="font-script">Jaya</span></a>
+        
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#history">History</a></li>
+            <li><a href="#ekonomi">Perekonomian</a></li>
+            <li><a href="#kegiatan">Kegiatan</a></li>
+            <li><a href="#keluhan">Keluhan</a></li>
+        </ul>
+
+        <div class="header-actions">
+            <!-- PENCARIAN REAL-TIME -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" onkeyup="liveSearch()" placeholder="Search...">
+            </div>
+
+            <!-- TOGGLE MODE GELAP / TERANG -->
+            <button class="btn-icon" id="themeToggleTaskbar" title="Ganti Mode Gelap / Terang">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+
+            <!-- TOMBOL PENGATURAN AKUN -->
+            <button class="btn-icon" onclick="openModal()" title="Pengaturan & Akun">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <div class="container">
+
+        <!-- SEKSI 1: BERANDA -->
+        <section id="home" class="hero-card searchable">
+            <h1 class="hero-banner">PUSAKA JAYA</h1>
+            <p class="hero-subtext"><span class="font-script">pemuda pemudi penerus</span> kertaharja123456</p>
+            
+            <div class="slider-box">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80" alt="Dusun Kertaharja Header">
+            </div>
+        </section>
+
+        <!-- SEKSI 2: HISTORY -->
+        <section id="history" style="margin-top: 40px;">
+            <h2 class="section-header">History <span class="font-script" style="font-size:2rem; margin-left:8px;">Kertaharja</span></h2>
+            <div class="cards-grid">
+                <div class="about-card searchable">
+                    <h3>Asal Usul & Asas Wilayah</h3>
+                    <p>Dusun Kertaharja berdiri dari semangat persatuan para tetua yang menginginkan lingkungan desa sejahtera, tenteram, dan makmur (*Kerta*) serta penuh kejayaan (*Harja*). Sejak zaman lampau, dusun ini dikenal dengan gotong royong warga yang erat.</p>
+                </div>
+                <div class="about-card searchable">
+                    <h3>Generasi Penerus</h3>
+                    <p>Hingga saat ini, tongkat estafet pembangunan diteruskan oleh organisasi pemuda-pemudi (*Kertaharja 123456*) yang berkomitmen melestarikan kebudayaan lokal sekaligus memajukan potensi ekonomi modern di era digital.</p>
+                </div>
+            </div>
+
+            <!-- BAR FOTO DAN VIDEO HISTORY -->
+            <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px;">Dokumentasi Sejarah & Wilayah</h3>
+            <div class="media-bar">
+                <div class="media-item searchable">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80" alt="Foto Sejarah Dusun">
+                    <p>Arsip Galeri Lanskap Dusun</p>
+                </div>
+                <div class="media-item searchable">
+                    <video controls poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80">
+                        <source src="" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <p>Profil Singkat Dusun Kertaharja</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKSI 3: SEKTOR PEREKONOMIAN -->
+        <section id="ekonomi" style="margin-top: 40px;">
+            <h2 class="section-header">Sektor <span class="font-script" style="font-size:2rem; margin-left:8px;">Perekonomian</span></h2>
+            
+            <div class="filter-bar">
+                <button class="filter-btn active-filter" onclick="filterKategori('all', this)">Semua Sektor</button>
+                <button class="filter-btn" onclick="filterKategori('pertanian', this)">Pertanian & UMKM</button>
+                <button class="filter-btn" onclick="filterKategori('kerajinan', this)">Kerajinan Tangan</button>
+                <button class="filter-btn" onclick="filterKategori('kuliner', this)">Kuliner Khas</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="portfolio-item searchable" data-category="pertanian">
+                    <div class="portfolio-thumb">
+                        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1000&q=80" alt="Hasil Tani Organik">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Hasil Tani & Kebun Organik</h4>
+                        <p class="desc">Produk komoditas unggulan komoditas lokal berupa beras organik segar, sayuran hijau, dan rempah alami langsung dari perkebunan Kertaharja.</p>
+                        <button onclick="beli('Produk Tani Organik Kertaharja')" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> Hubungi Penjual</button>
+                    </div>
+                </div>
+
+                <div class="portfolio-item searchable" data-category="kerajinan">
+                    <div class="portfolio-thumb">
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80" alt="Kerajinan Bambu">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Kerajinan Anyaman Bambu</h4>
+                        <p class="desc">Karya seni kriya tradisional berbahan bambu lokal pilihan. Dibuat secara presisi oleh pengrajin senior Dusun Kertaharja.</p>
+                        <button onclick="beli('Kerajinan Anyaman Bambu')" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> Hubungi Pengrajin</button>
+                    </div>
+                </div>
+
+                <div class="portfolio-item searchable" data-category="kuliner">
+                    <div class="portfolio-thumb">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80" alt="Kuliner Khas Dusun">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Kuliner & Olahan Rumah</h4>
+                        <p class="desc">Makanan olahan tradisional khas Dusun Kertaharja dengan resep warisan leluhur yang dikemas secara higienis dan modern.</p>
+                        <button onclick="beli('Kuliner Olahan Kertaharja')" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> Pesan Kuliner</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKSI 4: KEGIATAN -->
+        <section id="kegiatan" style="margin-top: 40px;">
+            <h2 class="section-header">Kegiatan <span class="font-script" style="font-size:2rem; margin-left:8px;">Masyarakat</span></h2>
+            
+            <div class="expose-card searchable">
+                <img class="expose-img" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80" alt="Kegiatan Gotong Royong">
+                <div class="expose-body">
+                    <h3 class="expose-title">Gotong Royong & Kerja Bakti Rutin</h3>
+                    <p class="expose-desc">Kegiatan kebersihan dan perbaikan sarana dusun yang dilaksanakan secara berkala oleh seluruh warga serta kelompok pemuda Kertaharja 123456.</p>
+                </div>
+            </div>
+
+            <div class="expose-card searchable">
+                <img class="expose-img" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1000&q=80" alt="Kegiatan Pemuda">
+                <div class="expose-body">
+                    <h3 class="expose-title">Pekan Olahraga & Seni Dusun</h3>
+                    <p class="expose-desc">Ajang silaturahmi tahunan untuk mempererat tali persaudaraan sesama pemuda dan masyarakat melalui turnamen olahraga dan seni pentas tradisional.</p>
+                </div>
+            </div>
+
+            <!-- BAR FOTO DAN VIDEO KEGIATAN -->
+            <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px;">Bar Media Dokumentasi Kegiatan</h3>
+            <div class="media-bar">
+                <div class="media-item searchable">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80" alt="Dokumentasi Acara">
+                    <p>Foto Dokumentasi Kebudayaan</p>
+                </div>
+                <div class="media-item searchable">
+                    <video controls poster="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80">
+                        <source src="" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <p>Video Dokumentasi Kegiatan Pemuda</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKSI 5: BLOG KELUHAN -->
+        <section id="keluhan" style="margin-top: 40px;">
+            <h2 class="section-header">Blog Keluhan <span class="font-script" style="font-size:2rem; margin-left:8px;">Masyarakat</span></h2>
+            
+            <div class="contact-box">
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Layanan aspirasi & keluhan warga Dusun Kertaharja. Setiap laporan yang Anda isi akan dikirimkan secara langsung ke pengurus dusun melalui WhatsApp.</p>
+                
+                <div class="form-group">
+                    <label>Nama Pelapor / Warga</label>
+                    <input type="text" id="name" placeholder="Ketik nama lengkap Anda...">
+                </div>
+                <div class="form-group">
+                    <label>RT / RW / Wilayah Dusun</label>
+                    <input type="text" id="lokasi" placeholder="Contoh: RT 02 / RW 01">
+                </div>
+                <div class="form-group">
+                    <label>Kategori Keluhan</label>
+                    <select id="kategori">
+                        <option value="Fasilitas Umum">Fasilitas Umum & Jalan</option>
+                        <option value="Kebersihan">Kebersihan & Sampah</option>
+                        <option value="Keamanan">Keamanan & Ketertiban</option>
+                        <option value="Lainnya">Lainnya / Aspirasi Pemuda</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Detail Keluhan / Aspirasi</label>
+                    <textarea id="msg" rows="5" placeholder="Jelaskan detail keluhan atau usulan Anda secara jelas..."></textarea>
+                </div>
+                
+                <button onclick="kirimKeluhan()" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> Kirim Keluhan ke WA Pengurus</button>
+            </div>
+        </section>
+
+        <!-- SEKSI MEDIA SOSIAL DI TENGAH -->
+        <section class="social-center-section">
+            <h3 class="font-script" style="font-size: 2.4rem;">jangan lupa mampir di sini yaa!... :)</h3>
+            
+            <div class="social-links-grid">
+                <a href="https://youtube.com" target="_blank" class="social-btn">
+                    <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-btn">
+                    <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Instagram
+                </a>
+                <a href="https://facebook.com" target="_blank" class="social-btn">
+                    <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Facebook
+                </a>
+                <a href="https://tiktok.com" target="_blank" class="social-btn">
+                    <i class="fa-brands fa-tiktok"></i> TikTok
+                </a>
+                <a href="mailto:kertaharja123456@gmail.com" class="social-btn">
+                    <i class="fa-solid fa-envelope" style="color: var(--orange-red);"></i> Email
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <div class="footer-info">
+            <p>&copy; 2026 Kertaharja Pusaka Jaya — Pemuda Pemudi Penerus Kertaharja123456.</p>
+        </div>
+
+    </div>
+
+    <!-- MODAL PENGATURAN -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-sliders"></i> Pengaturan Website</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+
+            <div class="account-profile">
+                <div class="avatar">PJ</div>
+                <div class="account-info">
+                    <h4>Pusaka Jaya <span class="badge-pro">Kertaharja</span></h4>
+                    <p>kertaharja123456@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <span><i class="fa-solid fa-globe"></i> Bahasa</span>
+                <span style="opacity:0.7;">Bahasa Indonesia</span>
+            </div>
+            <div class="setting-item">
+                <span><i class="fa-solid fa-bell"></i> Notifikasi Keluhan</span>
+                <input type="checkbox" checked style="accent-color:var(--orange-red);">
+            </div>
+            <div class="setting-item" style="border:none; margin-top:10px;">
+                <span style="color:var(--orange-red); cursor:pointer;" onclick="closeModal()"><i class="fa-solid fa-check"></i> Tutup Pengaturan</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT SYSTEM -->
+    <script>
+        function openModal() { document.getElementById('settingsModal').classList.add('active-modal'); }
+        function closeModal() { document.getElementById('settingsModal').classList.remove('active-modal'); }
+
+        function liveSearch() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.searchable');
+            cards.forEach(card => {
+                let text = card.innerText.toLowerCase();
+                card.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+
+        function filterKategori(kategori, el) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active-filter'));
+            el.classList.add('active-filter');
+            const items = document.querySelectorAll('.portfolio-item');
+            items.forEach(item => {
+                if (kategori === 'all' || item.getAttribute('data-category') === kategori) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function beli(item) { 
+            window.open(`https://wa.me/628XXXXXXXXXX?text=` + encodeURIComponent(`Halo Pengurus Dusun Kertaharja, saya berminat menanyakan tentang ${item}`), '_blank'); 
+        }
+
+        function kirimKeluhan() {
+            const nama = document.getElementById('name').value;
+            const lokasi = document.getElementById('lokasi').value;
+            const kategori = document.getElementById('kategori').value;
+            const pesan = document.getElementById('msg').value;
+
+            if(!nama || !pesan) { 
+                alert('Silakan isi Nama dan Detail Keluhan Anda terlebih dahulu.'); 
+                return; 
+            }
+
+            const teksWA = `*LAPORAN KELUHAN WARGA DUSUN KERTAHARJA*\n\n` +
+                           `• *Nama Pelapor:* ${nama}\n` +
+                           `• *Lokasi RT/RW:* ${lokasi}\n` +
+                           `• *Kategori:* ${kategori}\n\n` +
+                           `*Detail Keluhan/Aspirasi:*\n${pesan}`;
+
+            window.open(`https://wa.me/628XXXXXXXXXX?text=` + encodeURIComponent(teksWA), '_blank');
+        }
+
+        const toggleBtnTaskbar = document.getElementById('themeToggleTaskbar');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        function updateTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            if(theme === 'light') {
+                themeIcon.className = 'fa-solid fa-sun';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        updateTheme(currentTheme);
+
+        toggleBtnTaskbar.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = (theme === 'dark') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            updateTheme(newTheme);
+        });
+    </script>
+</body>
+</html>
